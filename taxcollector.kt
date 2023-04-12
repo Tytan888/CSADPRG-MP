@@ -90,7 +90,6 @@ fun main() {
     taxableIncome = deformat(format(monthlyIncome - totalContributions))
     incomeTax = deformat(format(computeMonthlyTax(taxableIncome)))
 
-
     // format then deformat is there to round it off to two decimal places, and converts it directly into double
 
     // Printing
