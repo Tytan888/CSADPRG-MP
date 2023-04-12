@@ -13,22 +13,9 @@ fun deformat(value: String): Double {
     return cleanValue.toDoubleOrNull() ?: 0.0
 }
 
-// Takes the taxable income, and uses a when (basically a switch lol) to
-// calculate the income tax based on the value.
-/*
-fun computeMonthlyTax(taxableIncome: Double) : Double {
+// Takes the taxable income, and uses a when (basically a switch statement with direct assignment) to
+// calculate the income tax based on a person's Taxable Income
 
-    val incomeTax = when (taxableIncome) {
-        in Double.MIN_VALUE..20833.0 -> 0.00
-        in 20833.01..33332.00 -> (taxableIncome - 20833) * 0.15
-        in 33332.01..66666.00 -> ((taxableIncome - 33333) * 0.20) + 1875.00
-        in 66666.01..166666.00 -> ((taxableIncome - 66667) * 0.25) + 8541.80
-        in 16666.01..666666.00 -> ((taxableIncome - 166667) * 0.30) + 33541.80
-        else -> ((taxableIncome - 666667) * 0.35) + 183541.80
-    }
-
-    return incomeTax
-}*/
 fun computeMonthlyTax(taxableIncome: Double) : Double {
 
     val incomeTax = when (taxableIncome) {
@@ -43,7 +30,7 @@ fun computeMonthlyTax(taxableIncome: Double) : Double {
     return incomeTax
 }
 
-// Takes the monthly income, and uses a when to find the SSS contribution based on the value.
+// Takes the monthly income, and uses a "when" statement to find the SSS contribution based on the monthlyIncome.
 fun computeSSS(monthlyIncome: Double): Double {
 
     val sss = when (monthlyIncome){
@@ -55,7 +42,7 @@ fun computeSSS(monthlyIncome: Double): Double {
     return sss
 }
 
-// Takes the monthly income, and uses a when to find the PhilHealth contribution based on the value.
+// Takes the monthly income, and uses a "when" statement to find the PhilHealth contribution based on the monthlyIncome.
 fun computePH(monthlyIncome: Double): Double {
 
     val ph = when (monthlyIncome) {
@@ -67,7 +54,7 @@ fun computePH(monthlyIncome: Double): Double {
     return ph
 }
 
-// Takes the monthly income, and uses a when to find the Pag-ibig contribution based on the value.
+// Takes the monthly income, and uses a "when" statement to find the Pag-ibig contribution based on the monthlyIncome.
 fun computePagIbig(monthlyIncome: Double): Double {
 
     val pagibig = when (monthlyIncome){
@@ -80,7 +67,7 @@ fun computePagIbig(monthlyIncome: Double): Double {
 }
 
 fun main() {
-
+    
     val monthlyIncome: Double
     val sssContributions: Double
     val phContributions: Double
@@ -91,7 +78,9 @@ fun main() {
 
 
     print("Enter your Monthly Income: ")
-    monthlyIncome = readln().toDouble()
+    
+    //This allows the user to input either in formal peso format "₱18,000" or direct numbers assumed to be in peso such as "18000"
+    monthlyIncome = deformat(readln())
 
     // Calculations
     sssContributions = deformat(format(computeSSS(monthlyIncome)))
@@ -101,8 +90,8 @@ fun main() {
     taxableIncome = deformat(format(monthlyIncome - totalContributions))
     incomeTax = deformat(format(computeMonthlyTax(taxableIncome)))
 
-    // FORMAT THEN DEFORMAT IS THERE TO ROUND IT OFF TO TWO DECIMAL PLACES DIRECTLY INTO DOUBLE NA RIN,
-    // THE WEBSITE DOES IT IN A SIMILAR FASHION NAMAN HAHAHAHAHAHA
+
+    // format then deformat is there to round it off to two decimal places, and converts it directly into double
 
     // Printing
     println("SSS Contributions: " + format(sssContributions))
@@ -111,6 +100,5 @@ fun main() {
     println("Total Contributions: " + format(totalContributions))
     println("Pay after Deductions: " + format(taxableIncome))
     println("Income Tax: " + format(incomeTax))
-    println("Total Deductions: " + format(totalContributions + incomeTax))
-    println("Net Pay After Tax: " + format(monthlyIncome - incomeTax - totalContributionsD))
+    println("Net Pay After Tax: " + format(monthlyIncome - incomeTax - totalContributions))
 }
